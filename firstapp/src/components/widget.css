@@ -1,0 +1,10 @@
+.widget-container {
+    display: inline-block;
+    margin: 2em;
+    min-width: 320px;
+}
+.widget {
+    border-radius: 8px;
+    box-shadow: 2px 2px 4px #333;
+    padding: 1em;
+}
