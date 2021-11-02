@@ -9,6 +9,9 @@ function App() {
         <p>
           This is my first app and I feel like a bloody beginner.
         </p>
+        <p>
+          :)
+        </p>
         <a
           className="App-link"
           href="https://skill-ed.org"
