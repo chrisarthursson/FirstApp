@@ -1,5 +1,10 @@
 .App {
   text-align: center;
+  position: relative;
+  width: auto;
+  left: 50%;
+  display: inline-block;
+  transform: translateX(-50%);
 }
 
 .App-logo {
