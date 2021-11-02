@@ -9,5 +9,10 @@ export function Content(){
         <WidgetVolume name = {"volume"} disabled = { true } />,
         <WidgetConverter name = {"converter"} />,
     ];
-    return widgets.map((widget, index) => <Widget key = {index} widget = {widget} />)
+    return (
+        <div id="widgets">
+            {widgets.map((widget, index) => <Widget key = {index} widget = {widget} />)}
+        </div>
+    ) 
+    
 }
