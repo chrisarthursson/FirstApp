@@ -1,3 +1,14 @@
+/*
+    CHALLENGE
+
+    1. decide which variables you can and want to be able to change through user input
+    2. decide which types of input fields you need
+    3. add input fields to code, and add variables to state, and to fetch url
+    4. research React form validation
+    5. create onChange function
+
+ */
+
 import React from 'react';
 import * as d3 from "d3";
 
