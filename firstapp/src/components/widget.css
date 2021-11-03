@@ -1,5 +1,5 @@
 .widget-container {
-    display: inline-block;
+    flex-wrap: wrap;
     margin: 2em;
     min-width: 320px;
     float:left;

@@ -1,13 +1,15 @@
 import { Widget } from './widget';
+import { WidgetTicker } from './widgets/widget_ticker';
 import { WidgetPrice } from './widgets/widget_price';
 import { WidgetVolume } from './widgets/widget_volume';
 import { WidgetConverter } from './widgets/widget_converter';
 
 export function Content(){
     const widgets = [
-        <WidgetPrice name = {"price"} />,
+        <WidgetTicker name = "Ticker" />,
+        <WidgetPrice name = {"Price"} />,
         <WidgetVolume name = {"volume"} disabled = { true } />,
-        <WidgetConverter name = {"converter"} />,
+        <WidgetConverter name = {"Converter"} />,
     ];
     return (
         <div id="widgets">
