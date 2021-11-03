@@ -6,7 +6,7 @@ import { Content } from './components/Content'
 function App() {
   return (
     <div className="App">
-      <img src={logo} alt="PIVX logo" padding="10"/>
+      <img src={logo} alt="PIVX logo" />
       <Content />
     </div>
   );

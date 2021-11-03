@@ -1,7 +1,7 @@
 .widget-container {
     flex-wrap: wrap;
     margin: 2em;
-    min-width: 320px;
+    min-width: 350px;
     float:left;
 }
 .widget {
