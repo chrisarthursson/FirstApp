@@ -17,7 +17,11 @@ export default class WidgetVolume extends React.Component {
         super(props);
         const parseTime = d3.timeParse("%Y");
         this.state = {
-            days: 365,
+            userInput: {
+                days: 365,
+                valuta: 'usd',
+                timeframe: 'daily'
+            },
             data: [
                 {
                     key: "pivx",
@@ -26,9 +30,18 @@ export default class WidgetVolume extends React.Component {
             ]
         };
         this.fetchData = this.fetchData.bind(this);
+        this.onChange = this.onChange.bind(this);
+    }
+    onChange(event){
+        const newValue = event.currentTarget.value;
+        const target = event.currentTarget.name;
+        this.setState({userInput: {
+            ...this.state.userInput, 
+            [target] : newValue}
+        });
     }
     async fetchData(){
-        let response = await fetch(`https://api.coingecko.com/api/v3/coins/pivx/market_chart?vs_currency=usd&days=${this.state.days}&interval=daily`, {});
+        let response = await fetch(`https://api.coingecko.com/api/v3/coins/pivx/market_chart?vs_currency=${this.state.userInput.valuta}&days=${this.state.userInput.days}&interval=daily`, {});
         let data = await response.json();
         console.log(data.prices);
         let values = [];
@@ -46,6 +59,11 @@ export default class WidgetVolume extends React.Component {
         let data = this.fetchData();
     }
     componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevState.userInput !== this.state.userInput){
+            console.log("comp updated");
+            this.fetchData();
+        } 
+        if (prevState.data !== this.state.data){
         let length = this.state.data[0].values.length;
         let prices = this.state.data[0].values.map(value => value.value);
         let dates = this.state.data[0].values.map(value => value.date);
@@ -53,17 +71,17 @@ export default class WidgetVolume extends React.Component {
         console.log([this.state.data[0].values[0].date, this.state.data[0].values[length-1].date]);
         const width = 700,
             height = 500;
-
-        const chart = d3
-            .select(this.chartRef)
+        let chart = d3.select(this.chartRef);
+        if (chart.select("g")) chart.select("g").remove();
+        chart = chart
             .attr("width", width + 20)
             .attr("height", height + 50) //200 for legend
             .append("g")
-            .attr("transform", "translate(20, 0)");
+            .attr("transform", "translate(100, 0)");
 
         const x = d3
             .scaleTime()
-            .domain([new Date(Date.now() - this.state.days * 24 * 60 * 60 * 1000), Date.now()])//this.state.data[0].values[0].date, this.state.data[0].values[length-1].date]) // min max dates
+            .domain([new Date(Date.now() - this.state.userInput.days * 24 * 60 * 60 * 1000), Date.now()])//this.state.data[0].values[0].date, this.state.data[0].values[length-1].date]) // min max dates
             .range([0,width]);
 
         const y = d3
@@ -74,7 +92,7 @@ export default class WidgetVolume extends React.Component {
         const colors = d3
             .scaleOrdinal()
             .domain(["pivx"])
-            .range(["green"]);
+            .range(["purple"]);
 
         const graph = chart
             .selectAll(".graph")
@@ -137,9 +155,31 @@ export default class WidgetVolume extends React.Component {
             })
             .attr("y", 7)
             .text(d => d);
+        }
     }
 
     render() {
-        return <svg className="line-chart" ref={r => (this.chartRef = r)} />;
+        return (
+        <>
+            <select name="valuta" onChange={this.onChange}>
+                <option name="USD" value="usd"selected="selected"> USD </option>
+                <option name="BTC" value="btc"> BTC </option>
+                <option name="ETH" value="eth"> ETH </option>
+                <option name="EUR" value="eur"> EUR </option>
+            </select>
+            <svg className="line-chart" ref={r => (this.chartRef = r)} />
+         
+            <select name="days" onChange={this.onChange}>
+                <option name="360d" value="360" selected="selected"> 360 days </option>
+                <option name="180d" value="180"> 180 days </option>
+                <option name="90d" value="90"> 90 days </option>
+                <option name="30d" value="30"> 30 days </option>
+            </select>
+            
+            <svg className="line-chart" ref={r => (this.chartRef = r)} />
+        </>
+
+        );
+
     }
 }
